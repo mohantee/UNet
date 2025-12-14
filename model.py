@@ -79,7 +79,6 @@ class UpTranspose(nn.Module):
     def forward(self, x, skip):
         x = self.up(x)
 
-        # 🔴 CRITICAL FIX: align skip if spatial sizes differ
         if x.shape[-2:] != skip.shape[-2:]:
             skip = F.interpolate(
                 skip,
@@ -108,7 +107,6 @@ class UpBilinear(nn.Module):
         )
         x = self.pre_conv(x)
 
-        # 🔴 CRITICAL FIX
         if x.shape[-2:] != skip.shape[-2:]:
             skip = F.interpolate(
                 skip,
@@ -171,6 +169,7 @@ class Model1_MP_TR_BCE(nn.Module):
 # MODEL 2: MP + TransposedConv + Dice
 # ======================================================
 class Model2_MP_TR_DICE(Model1_MP_TR_BCE):
+    # same as model 1 but with dice loss
     pass
 
 
